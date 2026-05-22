@@ -14,6 +14,7 @@ namespace EntityFramework.Exceptions.Tests;
 public abstract class DatabaseTests : IDisposable
 {
     private readonly bool isMySql;
+    private readonly bool isMySqlDevart;
     private readonly bool isSqlite;
     internal DemoContext DemoContext { get; }
     internal SameNameIndexesContext SameNameIndexesContext { get; }
@@ -23,7 +24,8 @@ public abstract class DatabaseTests : IDisposable
         DemoContext = demoContext;
         SameNameIndexesContext = sameNameIndexesContext;
 
-        isMySql = DemoContext.Database.IsMySql();
+        isMySql = MySQLDatabaseFacadeExtensions.IsMySql(DemoContext.Database);
+        isMySqlDevart = MySqlRelationalDatabaseFacadeExtensions.IsMySql(DemoContext.Database);
         isSqlite = demoContext.Database.IsSqlite();
     }
 

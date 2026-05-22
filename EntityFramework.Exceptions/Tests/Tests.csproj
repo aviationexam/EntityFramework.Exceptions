@@ -35,12 +35,14 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.5" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="10.0.1" />
+    <PackageReference Include="Devart.Data.MySql.EFCore" Version="10.1.72.10" />
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="10.23.26100" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\MySQL\MySQL.csproj" />
+    <ProjectReference Include="..\MySQL.Devart\MySQL.Devart.csproj" />
     <ProjectReference Include="..\Oracle\Oracle.csproj" />
     <ProjectReference Include="..\PostgreSQL\PostgreSQL.csproj" />
     <ProjectReference Include="..\Sqlite\Sqlite.csproj" />
