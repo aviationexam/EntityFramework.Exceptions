@@ -27,7 +27,7 @@ public class MySQLExceptionClassifier : IDbExceptionClassifier
 #if POMELO
         return mySqlException.ErrorCode;
 #elif DEVART
-        return (MySqlErrorCode)mySqlException.ErrorCode;
+        return (MySqlErrorCode)mySqlException.Code;
 #else
         return (MySqlErrorCode)mySqlException.Number;
 #endif
