@@ -4,6 +4,11 @@ using DbExceptionClassifier.Common;
 #if POMELO
 using MySqlConnector;
 namespace DbExceptionClassifier.MySQL.Pomelo;
+#elif DEVART
+using Devart.Data.MySql;
+using MySQL.Devart;
+
+namespace DbExceptionClassifier.MySQL.Devart;
 #else
 using MySql.Data.MySqlClient;
 namespace DbExceptionClassifier.MySQL;
@@ -21,6 +26,8 @@ public class MySQLExceptionClassifier : IDbExceptionClassifier
 
 #if POMELO
         return mySqlException.ErrorCode;
+#elif DEVART
+        return (MySqlErrorCode)mySqlException.ErrorCode;
 #else
         return (MySqlErrorCode)mySqlException.Number;
 #endif
