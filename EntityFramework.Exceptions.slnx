@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/DbExceptionClassifier/">
     <Project Path="DbExceptionClassifier/Common/Common.csproj" />
+    <Project Path="DbExceptionClassifier/MySQL.Devart/MySQL.Devart.csproj" />
     <Project Path="DbExceptionClassifier/MySQL.Pomelo/MySQL.Pomelo.csproj" />
     <Project Path="DbExceptionClassifier/MySQL/MySQL.csproj" />
     <Project Path="DbExceptionClassifier/Oracle/Oracle.csproj" />
@@ -10,6 +11,7 @@
   </Folder>
   <Folder Name="/EntityFramework.Exceptions/">
     <Project Path="EntityFramework.Exceptions/Common/Common.csproj" />
+    <Project Path="EntityFramework.Exceptions/MySQL.Devart/MySQL.Devart.csproj" />
     <Project Path="EntityFramework.Exceptions/MySQL.Pomelo/MySQL.Pomelo.csproj" />
     <Project Path="EntityFramework.Exceptions/MySQL/MySQL.csproj" />
     <Project Path="EntityFramework.Exceptions/Oracle/Oracle.csproj" />

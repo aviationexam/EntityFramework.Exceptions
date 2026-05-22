@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using DbExceptionClassifier.MySQL.Pomelo;
 namespace EntityFramework.Exceptions.MySQL.Pomelo;
+#elif DEVART
+using Devart.Data.MySql;
+using DbExceptionClassifier.MySQL.Devart;
+namespace EntityFramework.Exceptions.MySQL.Devart;
 #else
 using MySql.Data.MySqlClient;
 using DbExceptionClassifier.MySQL;
@@ -15,9 +19,9 @@ class MySqlExceptionProcessorInterceptor() : ExceptionProcessorInterceptor<MySql
 
 public static class ExceptionProcessorExtensions
 {
-    public static DbContextOptionsBuilder UseExceptionProcessor(this DbContextOptionsBuilder self) 
+    public static DbContextOptionsBuilder UseExceptionProcessor(this DbContextOptionsBuilder self)
         => self.AddInterceptors(new MySqlExceptionProcessorInterceptor());
 
-    public static DbContextOptionsBuilder<TContext> UseExceptionProcessor<TContext>(this DbContextOptionsBuilder<TContext> self) where TContext : DbContext 
+    public static DbContextOptionsBuilder<TContext> UseExceptionProcessor<TContext>(this DbContextOptionsBuilder<TContext> self) where TContext : DbContext
         => self.AddInterceptors(new MySqlExceptionProcessorInterceptor());
 }
