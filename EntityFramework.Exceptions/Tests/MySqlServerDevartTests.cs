@@ -2,7 +2,7 @@ using System;
 using Devart.Data.MySql;
 using EntityFramework.Exceptions.MySQL.Devart;
 using Microsoft.EntityFrameworkCore;
-using Testcontainers.MySql;
+using Testcontainers.MariaDb;
 using Xunit;
 
 namespace EntityFramework.Exceptions.Tests;
@@ -15,11 +15,11 @@ public class MySqlServerDevartTests : DatabaseTests, IClassFixture<MySqlDevartDe
     }
 }
 
-public class MySqlDevartDemoContextFixture : DemoContextFixture<MySqlContainer>
+public class MySqlDevartDemoContextFixture : DemoContextFixture<MariaDbContainer>
 {
     static MySqlDevartDemoContextFixture()
     {
-        Container = new MySqlBuilder().Build();
+        Container = new MariaDbBuilder().WithImage("mariadb:12.2").Build();
     }
 
     private static string AddLicenceKeyToTheConnectionString(
