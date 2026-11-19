@@ -38,10 +38,11 @@ public abstract class DemoContextFixture<T> : IAsyncLifetime where T : IContaine
         SameNameIndexesContext = new SameNameIndexesContext(sameNameIndexesOptionsBuilder.Options);
 
         var isMySql = MySQLDatabaseFacadeExtensions.IsMySql(SameNameIndexesContext.Database);
+        var isMySqlDevart = MySqlRelationalDatabaseFacadeExtensions.IsMySql(SameNameIndexesContext.Database);
         var isSqlite = SameNameIndexesContext.Database.IsSqlite();
         var isOracle = SameNameIndexesContext.Database.IsOracle();
 
-        if (!(isMySql || isSqlite || isOracle))
+        if (!(isMySql || isMySqlDevart || isSqlite || isOracle))
         {
             var relationalDatabaseCreator = SameNameIndexesContext.Database.GetService<IRelationalDatabaseCreator>();
             relationalDatabaseCreator.CreateTables();

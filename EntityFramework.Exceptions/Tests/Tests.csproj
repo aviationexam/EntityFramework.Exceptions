@@ -10,6 +10,7 @@
     <PackageReference Include="GitHubActionsTestLogger" Version="3.0.5" PrivateAssets="all" />
     <PackageReference Include="Testcontainers.MsSql" Version="4.16.0" />
     <PackageReference Include="Testcontainers.MySql" Version="4.16.0" />
+    <PackageReference Include="Testcontainers.MariaDb" Version="4.16.0" />
     <PackageReference Include="Testcontainers.Oracle" Version="4.16.0" />
     <PackageReference Include="Testcontainers.PostgreSql" Version="4.16.0" />
     <PackageReference Include="xunit.v3" Version="4.0.2" />
@@ -21,12 +22,14 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="11.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="11.0.0-rc.3" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="11.0.0-preview" />
+    <PackageReference Include="Devart.Data.MySql.EFCore" Version="10.3.248.11" />
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="10.23.26100" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\MySQL\MySQL.csproj" />
+    <ProjectReference Include="..\MySQL.Devart\MySQL.Devart.csproj" />
     <ProjectReference Include="..\Oracle\Oracle.csproj" />
     <ProjectReference Include="..\PostgreSQL\PostgreSQL.csproj" />
     <ProjectReference Include="..\Sqlite\Sqlite.csproj" />

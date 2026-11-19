@@ -14,6 +14,7 @@ namespace EntityFramework.Exceptions.Tests;
 public abstract class DatabaseTests : IDisposable
 {
     private readonly bool isMySql;
+    private readonly bool isMySqlDevart;
     private readonly bool isSqlite;
     internal DemoContext DemoContext { get; }
     internal SameNameIndexesContext SameNameIndexesContext { get; }
@@ -23,7 +24,8 @@ public abstract class DatabaseTests : IDisposable
         DemoContext = demoContext;
         SameNameIndexesContext = sameNameIndexesContext;
 
-        isMySql = DemoContext.Database.IsMySql();
+        isMySql = MySQLDatabaseFacadeExtensions.IsMySql(DemoContext.Database);
+        isMySqlDevart = MySqlRelationalDatabaseFacadeExtensions.IsMySql(DemoContext.Database);
         isSqlite = demoContext.Database.IsSqlite();
     }
 
@@ -155,7 +157,7 @@ public abstract class DatabaseTests : IDisposable
         var uniqueConstraintException = Assert.Throws<UniqueConstraintException>(() => DemoContext.SaveChanges());
         await Assert.ThrowsAsync<UniqueConstraintException>(() => DemoContext.SaveChangesAsync(TestContext.Current.CancellationToken));
 
-        if (!isSqlite && !isMySql)
+        if (!isSqlite && !isMySql && !isMySqlDevart)
         {
             Assert.False(string.IsNullOrEmpty(uniqueConstraintException.ConstraintName));
             Assert.False(string.IsNullOrEmpty(uniqueConstraintException.SchemaQualifiedTableName));
@@ -177,7 +179,7 @@ public abstract class DatabaseTests : IDisposable
         var asyncUniqueConstraintException = await Assert.ThrowsAsync<UniqueConstraintException>(() => DemoContext.SaveChangesAsync(TestContext.Current.CancellationToken));
 
         // MySQL always names the primary key PRIMARY, so it cannot be matched to the model.
-        if (!isSqlite && !isMySql)
+        if (!isSqlite && !isMySql && !isMySqlDevart)
         {
             foreach (var exception in new[] { uniqueConstraintException, asyncUniqueConstraintException })
             {
@@ -380,7 +382,7 @@ public abstract class DatabaseTests : IDisposable
         DemoContext.Products.Add(product);
 
         DemoContext.SaveChanges();
-        DemoContext.Database.ExecuteSql(isMySql
+        DemoContext.Database.ExecuteSql(isMySql || isMySqlDevart
             ? $"Delete from Products where id={product.Id}"
             : (FormattableString)$"Delete from \"Products\" where \"Id\"={product.Id}");
         product.Name = "G";
@@ -488,7 +490,7 @@ public abstract class DatabaseTests : IDisposable
     {
         DemoContext.Customers.Add(new Customer { Fullname = "Test" });
 
-        await DemoContext.Database.ExecuteSqlRawAsync(isMySql ? "Drop table Customers" : "Drop table \"Customers\"", TestContext.Current.CancellationToken);
+        await DemoContext.Database.ExecuteSqlRawAsync(isMySql || isMySqlDevart ? "Drop table Customers" : "Drop table \"Customers\"", TestContext.Current.CancellationToken);
 
         Assert.Throws<DbUpdateException>(() => DemoContext.SaveChanges());
         await Assert.ThrowsAsync<DbUpdateException>(() => DemoContext.SaveChangesAsync(TestContext.Current.CancellationToken));
