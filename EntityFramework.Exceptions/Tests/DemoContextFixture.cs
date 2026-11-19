@@ -20,7 +20,7 @@ public abstract class DemoContextFixture<T> : IAsyncLifetime where T : IContaine
 
     protected virtual DbContextOptionsBuilder BuildSameNameIndexesContextOptions(DbContextOptionsBuilder builder, string connectionString) => builder;
 
-    public async ValueTask InitializeAsync()
+    public virtual async ValueTask InitializeAsync()
     {
         var connectionString = "";
 
