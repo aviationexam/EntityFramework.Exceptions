@@ -4,6 +4,11 @@ using DbExceptionClassifier.Common;
 #if MYSQLCONNECTOR
 using MySqlConnector;
 namespace DbExceptionClassifier.MySqlConnector;
+#elif DEVART
+using Devart.Data.MySql;
+using MySQL.Devart;
+
+namespace DbExceptionClassifier.MySQL.Devart;
 #else
 using MySql.Data.MySqlClient;
 namespace DbExceptionClassifier.MySQL;
@@ -25,6 +30,8 @@ public class MySQLExceptionClassifier : IDbExceptionClassifier
 
 #if MYSQLCONNECTOR
         return mySqlException.ErrorCode;
+#elif DEVART
+        return (MySqlErrorCode)mySqlException.Code;
 #else
         return (MySqlErrorCode)mySqlException.Number;
 #endif

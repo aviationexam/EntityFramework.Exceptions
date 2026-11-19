@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageTags>EntityFramework EF MySql Devart dotConnect EntityFrameworkCore entity-framework-core EFCore Data Database</PackageTags>
+    <Description>Handle database errors easily when working with Entity Framework Core. Catch specific exceptions such as UniqueConstraintException, CannotInsertNullException, MaxLengthExceededException, NumericOverflowException, ReferenceConstraintException or DeadlockException instead of generic DbUpdateException
+
+      Use this package if you use Devart.Data.MySql.EFCore Entity Framework Core provider for MySQL</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- MySqlExceptionProcessorInterceptor.cs is shared with the MySQL project; this selects the Devart branch. -->
+    <DefineConstants>$(DefineConstants);DEVART</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\MySQL\MySqlExceptionProcessorInterceptor.cs" Link="MySqlExceptionProcessorInterceptor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DbExceptionClassifier\MySQL.Devart\MySQL.Devart.csproj" />
+  </ItemGroup>
+</Project>
