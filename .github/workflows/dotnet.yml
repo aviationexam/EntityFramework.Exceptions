@@ -27,6 +27,9 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       # Oracle.EntityFrameworkCore has no release for EF Core 11 yet
+      # The Devart tests skip when the DEVART_LICENSE secret is not set
+      env:
+        DEVART_LICENSE: ${{ secrets.DEVART_LICENSE }}
       run: >-
         dotnet test --no-build --verbosity normal --report-github
         --filter-not-class "EntityFramework.Exceptions.Tests.OracleTests"
