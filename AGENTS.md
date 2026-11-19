@@ -23,7 +23,7 @@ dotnet test --project EntityFramework.Exceptions/Tests/Tests.csproj --coverlet -
 
 `global.json` runs `dotnet test` on Microsoft.Testing.Platform: select the project with `--project` and filter with the xUnit v3 options (`--filter-class`, `--filter-method`, `--filter-not-class`), not the VSTest `--filter` expression.
 
-Tests use Testcontainers for PostgreSQL, SQL Server, MySQL, and Oracle (Docker required). SQLite tests use an in-memory shared database and don't need Docker.
+Tests use Testcontainers for PostgreSQL, SQL Server, MySQL, MariaDB, and Oracle (Docker required). SQLite tests use an in-memory shared database and don't need Docker. The Devart tests (`MySqlServerDevartTests`, on MariaDB) need a Devart license key in the `DEVART_LICENSE` environment variable; without it they are skipped.
 
 ## Architecture
 
@@ -49,9 +49,9 @@ It then matches the constraint name found in the provider exception message agai
 
 ### MySQL code sharing
 
-The MySQL classifier has two variants: MySql.Data (`DbExceptionClassifier/MySQL`) and MySqlConnector (`DbExceptionClassifier/MySqlConnector`, published as `DbExceptionClassifier.MySqlConnector`; named `DbExceptionClassifier.MySQL.Pomelo` before the .NET 11 release). The MySqlConnector project links `MySQL/MySQLExceptionClassifier.cs` via `<Compile Include>` and adds the `MYSQLCONNECTOR` define, which selects the `#if MYSQLCONNECTOR` branches.
+The MySQL classifier has three variants: MySql.Data (`DbExceptionClassifier/MySQL`), MySqlConnector (`DbExceptionClassifier/MySqlConnector`, published as `DbExceptionClassifier.MySqlConnector`; named `DbExceptionClassifier.MySQL.Pomelo` before the .NET 11 release), and Devart.Data.MySql (`DbExceptionClassifier/MySQL.Devart`). The MySqlConnector and Devart projects link `MySQL/MySQLExceptionClassifier.cs` via `<Compile Include>` and add the `MYSQLCONNECTOR` or `DEVART` define, which selects the matching `#if` branches. Devart exposes the server error as a plain number (`MySqlException.Code`), so the Devart project has its own `MySqlErrorCode` enum.
 
-The EF Core layer ships only `EntityFramework.Exceptions/MySQL` (the official MySql.EntityFrameworkCore provider). The EF Pomelo package was dropped: Pomelo has no EF Core 10+ provider (the maintained fork is Microting.EntityFrameworkCore.MySql, still on MySqlConnector), so MySqlConnector-based providers use `UseExceptionProcessor(IDbExceptionClassifier)` from `Common` with the MySqlConnector classifier (see README).
+The EF Core layer ships `EntityFramework.Exceptions/MySQL` (the official MySql.EntityFrameworkCore provider) and `EntityFramework.Exceptions/MySQL.Devart` (Devart.Data.MySql.EFCore), which links `MySQL/MySqlExceptionProcessorInterceptor.cs` and adds the `DEVART` define. The EF Pomelo package was dropped: Pomelo has no EF Core 10+ provider (the maintained fork is Microting.EntityFrameworkCore.MySql, still on MySqlConnector), so MySqlConnector-based providers use `UseExceptionProcessor(IDbExceptionClassifier)` from `Common` with the MySqlConnector classifier (see README).
 
 ### Naming conventions
 
